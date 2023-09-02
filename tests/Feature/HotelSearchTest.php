@@ -25,4 +25,19 @@ class HotelSearchTest extends TestCase
 
         $this->assertCount($expectedCount, $data);
     }
+
+    public function test_search_by_name()
+    {
+        $expectedName = 'Aida';
+        $response = $this->json('GET', '/api/hotels/search', [
+            'name' => $expectedName
+        ]);
+
+        $data = $response['data'];
+
+        $name = $data[0]['Name'];
+
+        $this->assertMatchesRegularExpression("/^.*?$expectedName.*?$/",$name);
+    }
+
 }
