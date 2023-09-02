@@ -40,4 +40,15 @@ class HotelSearchTest extends TestCase
         $this->assertMatchesRegularExpression("/^.*?$expectedName.*?$/",$name);
     }
 
+    public function test_request_validation_fails()
+    {
+        $expectedName = 1;
+        $response = $this->json('GET', '/api/hotels/search', [
+            'name' => $expectedName
+        ]);
+
+        $this->assertArrayHasKey('errors',$response);
+        $response->assertStatus(422);
+    }
+
 }
